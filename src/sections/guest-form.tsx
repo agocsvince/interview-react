@@ -11,7 +11,7 @@ export default function GuestForm() {
 	const [endDate, setEndDate] = useState<Date | undefined>();
 
 
-	const handleButtonClick = async (event: Event) => {
+	const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault()
 		// add guest to form
 		const quest: Guest = {
@@ -19,7 +19,7 @@ export default function GuestForm() {
 			startDate: startDate!.toDateString(),
 			endDate: endDate!.toDateString()
 		}
-		await addGuest(quest)
+		addGuest(quest)
 		
 		// reset input fields
 		setName('')
