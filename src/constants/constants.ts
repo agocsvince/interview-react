@@ -1,0 +1,1 @@
+export const GUESTS_URL = 'http://localhost:3001/guests'
