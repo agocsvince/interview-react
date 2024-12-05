@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/date-picker';
 import { addGuest } from '@/lib/utils';
 import { Guest } from '@/types/Guest';
+import { format } from 'date-fns';
 
 export default function GuestForm() {
 	const [name, setName] = useState('');
@@ -16,8 +17,8 @@ export default function GuestForm() {
 		// add guest to form
 		const quest: Guest = {
 			name: name,
-			startDate: startDate!.toDateString(),
-			endDate: endDate!.toDateString()
+			startDate: format(startDate as Date, 'yyyy-MM-dd'),
+			endDate: format(endDate as Date, 'yyyy-MM-dd')
 		}
 		addGuest(quest)
 		

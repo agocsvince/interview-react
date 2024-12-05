@@ -6,8 +6,23 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { getDates } from '@/lib/utils';
+import { Guest } from '@/types/Guest';
+import { useEffect, useState } from 'react';
 
 export default function MealSchedule() {
+	const [dateArray, setDateArray] = useState({})
+
+	useEffect(() => {
+		const getDateArray= async () => {
+			const resArray = await getDates();
+			setDateArray(resArray)
+		}
+
+		getDateArray()
+		
+	}, [])
+	
 	return (
 		<div className="mx-auto mt-10 w-full overflow-hidden rounded-lg border border-gray-200 shadow-lg">
 			<Table>
@@ -20,42 +35,33 @@ export default function MealSchedule() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					<TableRow>
-						<TableCell data-test-id="date">2023-12-04</TableCell>
+					{Object.keys(dateArray).map((date: string) => {
+						const guestArray = dateArray[date as keyof typeof dateArray] as Array<Guest>
+						return <TableRow key={date}>
+						<TableCell data-test-id="date">{date}</TableCell>
 						<TableCell>
-							<ul data-test-id="breakfast-list">
-								<li>Teszt Elek</li>
-							</ul>
-						</TableCell>
-						<TableCell>
-							<ul data-test-id="lunch-list">
-								<li>Teszt Elek</li>
-							</ul>
-						</TableCell>
-						<TableCell>
-							<ul data-test-id="dinner-list">
-								<li>Teszt Elek</li>
-							</ul>
-						</TableCell>
+									<ul data-test-id="breakfast-list">
+									{guestArray.map((guest: Guest) => {
+										return <li key={guest.id}>{guest.name}</li>
+									})}
+									</ul>
+								</TableCell>
+								<TableCell>
+									<ul data-test-id="lunch-list">
+									{guestArray.map((guest: Guest) => {
+										return <li key={guest.id}>{guest.name}</li>
+									})}
+									</ul>
+								</TableCell>
+								<TableCell>
+									<ul data-test-id="dinner-list">
+									{guestArray.map((guest: Guest) => {
+										return <li key={guest.id}>{guest.name}</li>
+									})}
+									</ul>
+								</TableCell>
 					</TableRow>
-					<TableRow>
-						<TableCell data-test-id="date">2023-12-05</TableCell>
-						<TableCell>
-							<ul data-test-id="breakfast-list">
-								<li>Teszt Elek</li>
-							</ul>
-						</TableCell>
-						<TableCell>
-							<ul data-test-id="lunch-list">
-								<li>Teszt Elek</li>
-							</ul>
-						</TableCell>
-						<TableCell>
-							<ul data-test-id="dinner-list">
-								<li>Teszt Elek</li>
-							</ul>
-						</TableCell>
-					</TableRow>
+					})}
 				</TableBody>
 			</Table>
 		</div>
