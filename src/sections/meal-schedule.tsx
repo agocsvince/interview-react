@@ -6,22 +6,26 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { useTableChange } from '@/lib/TableContext';
 import { getDates } from '@/lib/utils';
 import { Guest } from '@/types/Guest';
 import { useEffect, useState } from 'react';
 
 export default function MealSchedule() {
 	const [dateArray, setDateArray] = useState({})
+	const { isChanging } = useTableChange();
 
 	useEffect(() => {
-		const getDateArray= async () => {
+		const getDateArray = async () => {
 			const resArray = await getDates();
 			setDateArray(resArray)
 		}
 
-		getDateArray()
+		if (!isChanging) {
+			getDateArray()
+		}
 		
-	}, [])
+	}, [isChanging])
 
 	const guestList = (guestArray: Array<Guest>) => {
 		return guestArray.map((guest: Guest) => {

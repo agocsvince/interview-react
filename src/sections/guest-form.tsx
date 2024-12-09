@@ -3,24 +3,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/date-picker';
 import { addGuest } from '@/lib/utils';
-import { Guest } from '@/types/Guest';
+import { RequestGuest } from '@/types/Guest';
 import { format } from 'date-fns';
+import { useTableChange } from '@/lib/TableContext';
 
 export default function GuestForm() {
 	const [name, setName] = useState('');
 	const [startDate, setStartDate] = useState<Date | undefined>();
 	const [endDate, setEndDate] = useState<Date | undefined>();
-
+	const { setIsChanging } = useTableChange();
 
 	const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault()
 		// add guest to form
-		const quest: Guest = {
+		const quest: RequestGuest = {
 			name: name,
 			startDate: format(startDate as Date, 'yyyy-MM-dd'),
 			endDate: format(endDate as Date, 'yyyy-MM-dd')
 		}
-		addGuest(quest)
+		addGuest(quest, setIsChanging)
 		
 		// reset input fields
 		setName('')

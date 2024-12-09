@@ -4,3 +4,5 @@ export type Guest = {
 	startDate: string;
 	endDate: string;
 };
+
+export type RequestGuest= Pick<Guest, 'name' | 'startDate' | 'endDate'>

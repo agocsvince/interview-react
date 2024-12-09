@@ -1,6 +1,6 @@
 import { GUESTS_URL } from '@/constants/constants';
 import { DateGroupType } from '@/types/DateGroup';
-import { Guest } from '@/types/Guest';
+import { Guest, RequestGuest } from '@/types/Guest';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -43,7 +43,7 @@ export async function getDates() {
 	return dateGroups
 }
 
-export async function addGuest(guest: Guest) {
+export async function addGuest(guest: RequestGuest, setIsChanging: (b: boolean) => void) {
 	const options = { 
 		'method': 'POST', 
 		headers: { 
@@ -52,9 +52,11 @@ export async function addGuest(guest: Guest) {
 		body: JSON.stringify(guest)
 	};
 	try {
+		setIsChanging(true)
 		const response = await fetch(GUESTS_URL, options)
 		const text = await response.text()
 		const json = JSON.parse(text)
+		setIsChanging(false)
 
 		return json
 	} catch (error) {
