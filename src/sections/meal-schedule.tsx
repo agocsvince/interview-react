@@ -22,6 +22,12 @@ export default function MealSchedule() {
 		getDateArray()
 		
 	}, [])
+
+	const guestList = (guestArray: Array<Guest>) => {
+		return guestArray.map((guest: Guest) => {
+			return <li key={guest.id}>{guest.name}</li>
+		})
+	}
 	
 	return (
 		<div className="mx-auto mt-10 w-full overflow-hidden rounded-lg border border-gray-200 shadow-lg">
@@ -37,27 +43,22 @@ export default function MealSchedule() {
 				<TableBody>
 					{Object.keys(dateArray).map((date: string) => {
 						const guestArray = dateArray[date as keyof typeof dateArray] as Array<Guest>
+
 						return <TableRow key={date}>
 						<TableCell data-test-id="date">{date}</TableCell>
 						<TableCell>
 									<ul data-test-id="breakfast-list">
-									{guestArray.map((guest: Guest) => {
-										return <li key={guest.id}>{guest.name}</li>
-									})}
+									{guestList(guestArray)}
 									</ul>
 								</TableCell>
 								<TableCell>
 									<ul data-test-id="lunch-list">
-									{guestArray.map((guest: Guest) => {
-										return <li key={guest.id}>{guest.name}</li>
-									})}
+									{guestList(guestArray)}
 									</ul>
 								</TableCell>
 								<TableCell>
 									<ul data-test-id="dinner-list">
-									{guestArray.map((guest: Guest) => {
-										return <li key={guest.id}>{guest.name}</li>
-									})}
+									{guestList(guestArray)}
 									</ul>
 								</TableCell>
 					</TableRow>
